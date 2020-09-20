@@ -8,11 +8,18 @@
 
 'use strict';
 
-var expect = require('chai').expect;
-var MongoClient = require('mongodb').MongoClient;
-var ObjectId = require('mongodb').ObjectId;
-const MONGODB_CONNECTION_STRING = process.env.DB;
-//Example connection: MongoClient.connect(MONGODB_CONNECTION_STRING, function(err, db) {});
+const expect = require('chai').expect;
+const MONGODB_CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING;
+const BookModel = require('../models/book')
+
+const mongoose = require('mongoose');
+const connection = mongoose.connect(MONGODB_CONNECTION_STRING,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+
+mongoose.set('useCreateIndex', true);
 
 module.exports = function (app) {
 
@@ -24,7 +31,11 @@ module.exports = function (app) {
     
     .post(function (req, res){
       var title = req.body.title;
-      //response will contain new book object including atleast _id and title
+
+      if(!title) {
+        return res.send('')
+      }
+
     })
     
     .delete(function(req, res){
