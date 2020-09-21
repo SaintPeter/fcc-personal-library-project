@@ -136,13 +136,30 @@ suite('Functional Tests', function() {
           })
       });
 
+      test('Test POST /api/books/[id] without comment field', function(done){
+        chai.request(server)
+          .post('/api/books')
+          .send({ 'title': 'Nothing to say about this Book' })
+          .end(function(err, res) {
+            assert.isObject(res.body);
+            let bookId = res.body._id;
+            chai.request(server)
+              .post('/api/books/' + bookId)
+              .end(function(err, res) {
+                assert.isString(res.text);
+                assert.equal(res.text, 'missing required field comment' );
+                done();
+              });
+          })
+      });
+
       test('Test POST /api/books/[id] with comment, id not in db', function(done){
         chai.request(server)
           .post('/api/books/5f665eb46e296f6b9b6a504d')
           .send({ comment: "This comment won't make it" })
-          .end(function(err, res){
-            assert.isString(res.  text);
-            assert.equal(res.text, 'no book exists' )
+          .end(function(err, res) {
+            assert.isString(res.text);
+            assert.equal(res.text, 'no book exists' );
             done();
           });
       });
@@ -172,8 +189,8 @@ suite('Functional Tests', function() {
         chai.request(server)
           .delete('/api/books/5f665eb46e296f6b9b6a504d')
           .end(function(err, res){
-            assert.isString(res.  text);
-            assert.equal(res.text, 'no book exists' )
+            assert.isString(res.text);
+            assert.equal(res.text, 'no book exists' );
             done();
           });
       });

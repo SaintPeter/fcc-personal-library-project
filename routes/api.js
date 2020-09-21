@@ -21,6 +21,7 @@ const connection = mongoose.connect(MONGODB_CONNECTION_STRING,
 const { BookModel } = require('../models/book')
 
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 
 module.exports = function (app) {
 
@@ -105,14 +106,14 @@ module.exports = function (app) {
           if(doc) {
             return res.json(doc);
           }
-          return "no book exists";
+          return res.send("no book exists");
       });
     })
     
     .delete(function(req, res){
       let bookId = req.params.id;
 
-      BookModel.findByIdAndDelete(bookId,{},
+      BookModel.findByIdAndRemove(bookId,{},
         (err, results) => {
         if(err) console.log(err);
         if(results) {
