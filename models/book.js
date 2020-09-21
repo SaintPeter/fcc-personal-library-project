@@ -5,20 +5,6 @@ const BookSchema = new mongoose.Schema({
   comments:[
     { type: String }
   ]
-},
-  {
-    toJSON: {
-      virtuals: true
-    },
-    toObject: {
-      virtuals: truie
-    }
-  });
-
-BookSchema.virtual('commentcount').get(function() {
-  if(this.comments) {
-    return this.comments.length;
-  }
 });
 
 // Hide __v field from JSON
