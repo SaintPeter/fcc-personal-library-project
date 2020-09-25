@@ -83,7 +83,7 @@
       */
       $(function() {
        $('#commentTest').submit(function(){
-         var id = $('#idinputtest').val();
+         let id = $('#idinputtest').val();
          $(this).attr('action', "/api/books/" + id);
        });
       });

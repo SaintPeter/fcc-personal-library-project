@@ -66,9 +66,10 @@ suite('Functional Tests', function() {
                 assert.isAtLeast(res.body.length,3)
                 res.body.forEach((book) => {
                   assert.isObject(book);
-                  assert.property(book, "title")
-                  assert.match(book.title, /Faux Book \w/);
-                  assert.property(book, "commentcount")
+                  assert.property(book, "title");
+                  assert.isString(book.title);
+                  assert.property(book, "_id");
+                  assert.property(book, "commentcount");
                   assert.isNumber(book.commentcount);
                 })
                 done();
